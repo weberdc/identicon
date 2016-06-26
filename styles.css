@@ -4,15 +4,16 @@
   margin-top: 20px;
 }
 
-#identicon_canvas, #identicon_png, #identicon_svg {
-  margin: 20px;
-  margin-top: 50px;
-  display: flex;
-  justify-content: center;
+form {
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
-#identicon_canvas svg {
-  border: solid;
-  border-width: 1px;
-  border-color: lightgray;
+.form-inline > input {
+  margin-right: 10px;
+  min-width: 50px;
+}
+
+footer {
+  margin-top: 50px;
 }

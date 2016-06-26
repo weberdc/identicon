@@ -26,12 +26,15 @@
       <main>
         <form>
           <div class="form-group">
-            <label for="identicon_source">Text to use</label>
-            <input type="text" class="form-control" id="identicon_source" size="80" oninput="generateIdenticon();" placeholder="Enter some text here"><br>
+            <input type="text" class="form-control" id="identicon_source" size="80" oninput="generateIdenticon();" placeholder="Enter some text here">
           </div>
-          <div class="form-group">
-            <label for="grid_size">Identicon grid size</label>
+          <div class="form-group form-inline">
+            <label for="grid_size">Grid size:</label>
             <input type="number" class="form-control" id="grid_size" min="7" max="23" step="2" oninput="generateIdenticon();" value="7">
+            <label for="cell_size">Cell size:</label>
+            <input type="number" class="form-control" id="cell_size" min="5" max="100" step="5" oninput="generateIdenticon();" value="20">
+            <label for="identicon_colour">Colour:</label>
+            <input type="color" class="form-control" id="identicon_colour" oninput="generateIdenticon();" value="#0000ff">
           </div>
         </form>
         <div class="panel panel-default">
@@ -40,10 +43,16 @@
           </div>
           <div class="panel-body" id="identicon_svg"></div>
         </div>
-        <h2>PNG</h2>
-        <div id="identicon_canvas"><canvas/></div>
-        <div id="identicon_png">Stuff</div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">PNG</h3>
+          </div>
+          <div class="panel-body" id="identicon_canvas"><canvas/></div>
+        </div>
+        <div id="identicon_png">Nothing to download yet</div>
       </main>
+      <footer>
+      </footer>
     </div>
     <!-- / wrapper -->
     <script src="identicon.js"></script>

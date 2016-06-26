@@ -13,12 +13,15 @@ function generateIdenticon() {
   // populate the matrix
   fillIdenticonMatrix(matrix, binaryString);
 
-  let cellWidth = 20;
-  let svg = buildSvgIdenticonFrom(matrix, cellWidth);
+  let cellSize = parseInt(elementById("cell_size").value);
+  let svg = buildSvgIdenticonFrom(matrix, cellSize, elementById("identicon_colour").value);
 
   elementById("identicon_svg").innerHTML = svg;
 
-  createSvg2pngDownloadLink(cellWidth * gridSize, cellWidth * gridSize);
+  var svg2 = document.querySelector("svg");
+  var canvas = elementById("identicon_canvas").querySelector("canvas");
+
+  createSvg2pngDownloadLink(svg2, canvas, cellSize * gridSize, cellSize * gridSize);
 }
 
 function elementById(id) {
@@ -73,7 +76,7 @@ function fillIdenticonMatrix(matrix, binaryString) {
   }
 }
 
-function buildSvgIdenticonFrom(matrix, cellWidth=20) {
+function buildSvgIdenticonFrom(matrix, cellWidth=20, colour='rgb(0,0,255)') {
   var svg = [];
   let side = cellWidth * matrix.length;
   svg.push(`<svg width="${side}" height=${side}>`);
@@ -84,7 +87,7 @@ function buildSvgIdenticonFrom(matrix, cellWidth=20) {
         let y = row * cellWidth;
         let w = cellWidth;
         let h = cellWidth;
-        let s = "fill:rgb(0,0,255);stroke-width:0";
+        let s = `fill:${colour};stroke-width:0`;
         let cell = `<rect x="${x}" y="${y}" width="${w}" height="${h}" style="${s}" />`;
         svg.push(cell);
       }
@@ -94,12 +97,14 @@ function buildSvgIdenticonFrom(matrix, cellWidth=20) {
   return svg.join('\n');
 }
 
-function createSvg2pngDownloadLink(width, height) {
+function createSvg2pngDownloadLink(svg, canvas, width, height) {
   // adapted from https://gist.github.com/gustavohenke/9073132
-  var svg = document.querySelector("svg");
+  // we need to look up the existing svg element for some reason
+  // var svg = document.querySelector("svg");
   var svgData = new XMLSerializer().serializeToString(svg);
 
-  var canvas = elementById("identicon_canvas").querySelector("canvas");
+  // find the existing canvas
+  // var canvas = elementById("identicon_canvas").querySelector("canvas");
   canvas.setAttribute("width", width);
   canvas.setAttribute("height", height);
   var ctx = canvas.getContext("2d");
@@ -107,15 +112,13 @@ function createSvg2pngDownloadLink(width, height) {
   var img = document.createElement("img");
   img.setAttribute("src", "data:image/svg+xml;base64," + btoa(svgData));
 
-  //elementById("identicon_canvas2").appendChild(canvas);
-
   img.onload = function() {
     ctx.drawImage(img, 0, 0);
 
     // Now is done
     let pngUrl = canvas.toDataURL("image/png");
 
-    console.log(pngUrl);
+    // console.log(pngUrl);
 
     elementById("identicon_png").innerHTML = `<a href="${pngUrl}">Download</a>`;
   };
