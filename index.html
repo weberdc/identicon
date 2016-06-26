@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <title>Identicon Generator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+
+  <body>
+    <!-- wrapper -->
+    <div id="wrapper">
+      <!-- header (redundant comment) -->
+      <header id="top"><h1>Identicon Generator</h1></header>
+      <!-- / header -->
+      <!-- content -->
+      <main>
+        <form>
+          <input type="text" id="identicon_source" size="80" oninput="generateIdenticon();" placeholder="Enter text here"><br>
+          <input type="number" id="grid_size" min="7" max="19" step="2" oninput="generateIdenticon();" value="7">
+        </form>
+        <canvas id="identicon_canvas"></canvas>
+        <p id="demo"></p>
+      </main>
+      <!-- / content -->
+      <!-- sidebar -->
+      <aside>
+      </aside>
+      <!-- / sidebar -->
+      <!-- nav -->
+      <nav>
+      </nav>
+      <!-- / nav -->
+      <!-- footer -->
+      <footer>
+      </footer>
+    </div>
+    <!-- / wrapper -->
+    <script src="identicon.js"></script>
+  </body>
+</html>
