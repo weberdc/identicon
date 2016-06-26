@@ -2,6 +2,34 @@
 //
 // Functions for generating identicons from text
 
+function generateIdenticon() {
+  // turn the source info into a binary string
+  let binaryString = toHashString(elementById("identicon_source").value);
+
+  // create blank boolean matrix
+  let gridSize = elementById("grid_size").value;
+  let matrix = initMatrix(gridSize);
+
+  // populate the matrix
+  fillIdenticonMatrix(matrix, binaryString);
+
+  let cellWidth = 20;
+  let svg = buildSvgIdenticonFrom(matrix, cellWidth);
+
+  elementById("identicon_canvas").innerHTML = svg;
+
+  createSvg2pngDownloadLink(cellWidth * gridSize, cellWidth * gridSize);
+}
+
+function elementById(id) {
+  return window.document.getElementById(id);
+}
+
+function toHashString(source) {
+  let hashCode = Math.abs(source.hashCode());
+  return padWithZeroes(31, hashCode.toString(2));
+}
+
 String.prototype.hashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
@@ -45,26 +73,50 @@ function fillIdenticonMatrix(matrix, binaryString) {
   }
 }
 
-function generateIdenticon() {
-  let source = window.document.getElementById("identicon_source").value;
-  let hashCode = Math.abs(source.hashCode());
-  console.log("generateIdenticon(" + source + "): " + hashCode);
+function buildSvgIdenticonFrom(matrix, cellWidth=20) {
+  var svg = [];
+  let side = cellWidth * matrix.length;
+  svg.push(`<svg width="${side}" height=${side}>`);
+  for (var row = 0; row < matrix.length; row++) {
+    for (var col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col]) {
+        let x = col * cellWidth;
+        let y = row * cellWidth;
+        let w = cellWidth;
+        let h = cellWidth;
+        let s = "fill:rgb(0,0,255);stroke-width:0";
+        let cell = `<rect x="${x}" y="${y}" width="${w}" height="${h}" style="${s}" />`;
+        svg.push(cell);
+      }
+    }
+  }
+  svg.push('</svg>');
+  return svg.join('\n');
+}
 
-  var binary = padWithZeroes(31, hashCode.toString(2));
+function createSvg2pngDownloadLink(width, height) {
+  // adapted from https://gist.github.com/gustavohenke/9073132
+  var svg = document.querySelector("svg");
+  var svgData = new XMLSerializer().serializeToString(svg);
 
-  console.log(binary);
-  console.log(binary.length);
+  var canvas = document.createElement("canvas");
+  canvas.setAttribute("width", width);
+  canvas.setAttribute("height", height);
+  var ctx = canvas.getContext("2d");
 
-  // create matrix
-  let gridSize = window.document.getElementById("grid_size").value;
-  let matrix = initMatrix(gridSize);
-  console.log(matrix);
+  var img = document.createElement("img");
+  img.setAttribute("src", "data:image/svg+xml;base64," + btoa(svgData));
 
-  fillIdenticonMatrix(matrix, binary);
-  console.log(matrix);
+  elementById("identicon_canvas2").appendChild(canvas);
 
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0);
 
+    // Now is done
+    let pngUrl = canvas.toDataURL("image/png");
 
+    console.log(pngUrl);
 
-  document.getElementById("demo").innerHTML = source;//document.getElementById("identicon_source").value;
+    elementById("identicon_png").innerHTML = `<a href="${pngUrl}">Download</a>`;
+  };
 }

@@ -3,3 +3,16 @@
   margin: auto;
   margin-top: 20px;
 }
+
+#identicon_canvas, #identicon_png, #identicon_canvas2 {
+  margin: 20px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+#identicon_canvas svg {
+  border: solid;
+  border-width: 1px;
+  border-color: lightgray;
+}

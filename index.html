@@ -2,8 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Identicon Generator</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
   </head>
 
   <body>
@@ -15,24 +25,19 @@
       <!-- content -->
       <main>
         <form>
-          <input type="text" id="identicon_source" size="80" oninput="generateIdenticon();" placeholder="Enter text here"><br>
-          <input type="number" id="grid_size" min="7" max="19" step="2" oninput="generateIdenticon();" value="7">
+          <div class="form-group">
+            <label for="identicon_source">Text to use</label>
+            <input type="text" class="form-control" id="identicon_source" size="80" oninput="generateIdenticon();" placeholder="Enter some text here"><br>
+          </div>
+          <div class="form-group">
+            <label for="grid_size">Identicon grid size</label>
+            <input type="number" class="form-control" id="grid_size" min="7" max="23" step="2" oninput="generateIdenticon();" value="7">
+          </div>
         </form>
-        <canvas id="identicon_canvas"></canvas>
-        <p id="demo"></p>
+        <div id="identicon_canvas"></div>
+        <div id="identicon_canvas2"></div>
+        <div id="identicon_png">Stuff</div>
       </main>
-      <!-- / content -->
-      <!-- sidebar -->
-      <aside>
-      </aside>
-      <!-- / sidebar -->
-      <!-- nav -->
-      <nav>
-      </nav>
-      <!-- / nav -->
-      <!-- footer -->
-      <footer>
-      </footer>
     </div>
     <!-- / wrapper -->
     <script src="identicon.js"></script>
